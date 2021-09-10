@@ -36,7 +36,7 @@ I added a [configuration](./config) folder with [default.json](./config/default.
     }
 }
 ```
-**NOTE**: To run the code against the small json [file](./input/accounts.json) -> simply go to this [line-16](./src/infra/account/account-repository-impl.ts#Ln16) and make it 
+**NOTE**: To run the code against the small json [file](./input/accounts.json) -> simply go to this [line-16](./src/infra/account/account-repository-impl.ts#L16) and make it 
 ```ts
 const jsonPath = this.appConfig.get<string>('infra.account.src');
 ```
@@ -58,7 +58,7 @@ With the solution I applied, processing the json [files](./input) took (includin
   Elapsed time to parse 100200 entries: 2.311 seconds
    ```
 # Improvements
-- I can think of adding more validators to validate the query `parameters` and their values deinfed in the swagger [file](swagger.json#Ln18), I already did define `enums` in ([mfa](swagger.json#Ln31) and [sortField](swagger.json#Ln47) query parameter) and tried to be strict a bit, but this also can be improved on the codebase level.
+- I can think of adding more validators to validate the query `parameters` and their values deinfed in the swagger [file](swagger.json#L18), I already did define `enums` in ([mfa](swagger.json#L31) and [sortField](swagger.json#L47) query parameter) and tried to be strict a bit, but this also can be improved on the codebase level.
 - Adding more unit tests to handle more edge cases in the test. The current coverage is:
 ```ts
 19 passing (50ms)
