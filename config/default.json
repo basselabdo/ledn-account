@@ -1,0 +1,10 @@
+{
+  "hostname": "localhost",
+  "port": 3000,
+  "infra": {
+    "account": {
+      "src": "./input/accounts.json",
+      "large-src": "./input/accounts_large.json"
+    }
+  }
+}

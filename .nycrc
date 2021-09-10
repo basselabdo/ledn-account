@@ -1,0 +1,35 @@
+{
+    "check-coverage": true,
+    "per-file": false,
+    "lines": 50,
+    "statements": 50,
+    "functions": 50,
+    "branches": 50,
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+    ],
+    "exclude": [
+        "src/**/*.d.ts",
+        "src/server.ts",
+        "src/app.ts",
+        "src/container.ts"
+    ],
+    "extension": [
+        ".ts",
+        ".tsx"
+    ],
+    "reporter": [
+        "lcov",
+        "text",
+        "text-summary"
+    ],
+    "all": true,
+    "sourceMap": true,
+    "instrument": true,
+    "cache": false,
+    "require": [
+        "ts-node/register",
+        "source-map-support/register"
+    ]
+}
