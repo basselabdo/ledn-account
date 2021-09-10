@@ -1,49 +1,87 @@
-# Ledn Token Interview Challenge
-At Ledn, we are eager to find talented, resourceful, and passionate engineers to help us build the future of digital asset financial services. In light of this, we created a series of steps for us to know each other. One of these is a take home challenge, which will take a few hours to complete.
+# Running the Code
 
-### Why a take-home challenge?
-In-person coding interviews can be stressful and may hide your full potential. A take-home gives you a chance to work in a less stressful environment and showcase your talent.
+navigate to root folder and run the following commands:
 
-### Our tech stack
-As outlined in our job description, you will come across technologies which include a backend web framework (Typescript with NodeJS runtime) and a frontend library (React).
+`npm install` to install the needed dependencies
 
-### Challenge Background
-Ledn token is born! .. (fictional). Against our better judgement, we have rushed out our own token. We are now left with a slew of customer data and no way of capturing insights and managing accounts! Help us create a dashboard to better visualize our token holders' accounts. You are given a data set in the following format:
-* `firstName` (Account Holder First Name)
-* `lastName` (Account Holder Last Name)
-* `country` (Country code)
-* `email` (email)
-* `dob` (Date of Birth)
-* `mfa` (multi factor authentication type)
-* `amt` (Number of ledn tokens held)
-* `createdDate` (Account creation date)
-* `referredBy` (email of referral account)
+`npm run build` to build the solution
 
-In this repo is a sample data file [`accounts.json`](/accounts.json).
+`npm run start` to start the server
 
-### Requirements
-1. You need to create an application which is either one of the following:
-    * A web application displaying a table from the data provided. (Frontend leaning applicants)
-    * An API which can request the data provided; (Backend leaning applicants)
-  
-2. Try to use fewer libraries and implement your own utilities and functionality.
+After building and running the code, you can either: 
+1. Use postman to test it by making a `GET` call to this endpoint http://localhost:3000/accounts and add the needed parameters to the url (i.e. http://localhost:3000/accounts?country=ca&sortField=amt)
+2. Using any browser, navigate to the [swagger](swagger.json) file to see the endpoint and the parameters it requires [Url](http://localhost:3000/docs)
 
-3. For each case, your data needs to be displayed or requested as follows:
-    * The user should be able to sort accounts on number of Ledn tokens held or creation date;
-    * The user should be able to filter on account country, on mfa type, and by name;
-    * The user should be able to download the data displayed as a CSV (Frontend only).
-    
-4. The system should be able to support larger sets of data on the order of 100k records.
-   
-5. Feel free to choose any tech stack that can accomplish the requirements. Although a similar stack to ours would be better.
-   
-### Time Estimate
-Estimated effort to complete this challenge is up to 6 hours.
+To filter by `country` or `mfa`, it will accept both, upper or lower case values and it will skip the fields with `null` value. Also, when filtering by `name` I searched for th value in `firstName` and `lastName` fields of the account because, technically, the term `name` is combination of `first` and `last` name combined together.
+# Testing the code
 
-### Submission
-You may choose to submit your solution however you'd like. Feel free to send us a link to a hosted git repo, or send us your solution directly. Whichever method you choose, please include instructions on running your solution locally.
+run the following command to run the unit tests:
 
-### Following Steps
-Upon submission of the challenge, we will review your code and reach out to you with comments. If your submission passes our criteria, a following interview will be scheduled to discuss your implementation in further detail. We feel this is another great way to assess your understanding rather than on the spot coding exercises!
+`npm run test`
 
-We want you to succeed as much as you do, so we wish you the best of luck! Looking forward to your submission!
+
+# Solution
+I utilitzed the way of thinking and the structure I thought to make it well-structured as much as I could. I know that there could be a way better ways to do it :)
+
+I built the structure in a way where I have the [application](./src/application) layer that is separate from the [infra](./src/infra) layer, where I managed all the read operation from the files [accounts](./input/accounts.json) [large-accounts](./input/accounts_large.json). The [application](./src/application/account) layer contains the account interface, service, respository.
+The implementation of the [account-repository](./src/application/account/account-repository.ts) is in [infra](./src/infra/account) folder. The file [account-repository-impl](./src/infra/account/account-repository-impl.ts) implements the account respository interface.
+
+
+I added a [configuration](./config) folder with [default.json](./config/default.json) in it, to make the paths to the files configurable and easier to be parsed in the code:
+```json
+{
+    "account": {
+      "src": "./input/accounts.json",
+      "large-src": "./input/accounts_large.json"
+    }
+}
+```
+**NOTE**: To run the code against the small json [file](./input/accounts.json) -> simply go to this [line-16](./src/infra/account/account-repository-impl.ts#Ln16) and make it 
+```ts
+const jsonPath = this.appConfig.get<string>('infra.account.src');
+```
+or, to parse the big [file](./input/accounts_large.json) change it to:
+```ts
+const jsonPath = this.appConfig.get<string>('infra.account.large-src');
+```
+
+I also added an interface in [domain](./src/domain) folder to easily parse the json files into the defined interface [LednAccount](./src/domain/ledn-account.ts).
+
+# Benchmarking
+With the solution I applied, processing the json [files](./input) took (including the filter and sort):
+- [account.json](./input/account.json)
+   ```ts
+   Elapsed time to parse 200 entries: 0.044 seconds
+   ```
+- [account_large.json](./input/account_large.json)
+  ```ts
+  Elapsed time to parse 100200 entries: 2.311 seconds
+   ```
+# Improvements
+- I can think of adding more validators to validate the query `parameters` and their values deinfed in the swagger [file](swagger.json#Ln18), I already did define `enums` in ([mfa](swagger.json#Ln31) and [sortField](swagger.json#Ln47) query parameter) and tried to be strict a bit, but this also can be improved on the codebase level.
+- Adding more unit tests to handle more edge cases in the test. The current coverage is:
+```ts
+19 passing (50ms)
+
+-----------------------------|----------|----------|----------|----------|-------------------|
+File                         |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
+-----------------------------|----------|----------|----------|----------|-------------------|
+All files                    |      100 |    92.31 |      100 |      100 |                   |
+ application/account         |      100 |      100 |      100 |      100 |                   |
+  account-service-impl.ts    |      100 |      100 |      100 |      100 |                   |
+ domain                      |      100 |      100 |      100 |      100 |                   |
+  ledn-account.ts            |      100 |      100 |      100 |      100 |                   |
+ infra/account               |      100 |    88.89 |      100 |      100 |                   |
+  account-repository-impl.ts |      100 |    88.89 |      100 |      100 |             71,85 |
+ web                         |      100 |      100 |      100 |      100 |                   |
+  account-handler.ts         |      100 |      100 |      100 |      100 |                   |
+  json-formatter.ts          |      100 |      100 |      100 |      100 |                   |
+-----------------------------|----------|----------|----------|----------|-------------------|
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 60/60 )
+Branches     : 92.31% ( 24/26 )
+Functions    : 100% ( 18/18 )
+Lines        : 100% ( 59/59 )
+================================================================================
+```
