@@ -36,7 +36,7 @@ I added a [configuration](./config) folder with [default.json](./config/default.
     }
 }
 ```
-**NOTE**: To run the code against the small json [file](./input/accounts.json) -> simply go to this [line-16](./src/infra/account/account-repository-impl.ts#L16) and make it 
+**NOTE**: To run the code against the small json [file](./input/accounts.json) -> simply go to this [line](./src/infra/account/account-repository-impl.ts#L17) and make it 
 ```ts
 const jsonPath = this.appConfig.get<string>('infra.account.src');
 ```
