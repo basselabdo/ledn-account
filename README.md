@@ -21,7 +21,7 @@ run the following command to run the unit tests:
 
 
 # Solution
-I utilitzed the way of thinking and the structure I thought to make it well-structured as much as I could. I know that there could be a way better ways to do it :)
+I utilitzed my way of thinking in implementing the structure to make it well-structured and efficient as much as I could. I know that there could be a way better ways to do it :)
 
 I built the structure in a way where I have the [application](./src/application) layer that is separate from the [infra](./src/infra) layer, where I managed all the read operation from the files [accounts](./input/accounts.json) [large-accounts](./input/accounts_large.json). The [application](./src/application/account) layer contains the account interface, service, respository.
 The implementation of the [account-repository](./src/application/account/account-repository.ts) is in [infra](./src/infra/account) folder. The file [account-repository-impl](./src/infra/account/account-repository-impl.ts) implements the account respository interface.
