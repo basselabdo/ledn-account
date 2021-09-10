@@ -1,7 +1,7 @@
 {
-  "name": "ledn-token",
+  "name": "ledn-account",
   "version": "0.1.0",
-  "description": "a BackEnd REST API to query Ledn Tokens",
+  "description": "a BackEnd REST API to query Ledn Accounts",
   "repository": {
     "type": "git",
     "url": ""
@@ -12,17 +12,11 @@
     "start": "npm run serve",
     "build": "npm run prettier && npm run build-ts && npm run tslint",
     "serve": "node -r dotenv/config dist/src/server.js",
-    "watch-node": "nodemon --exec ts-node -- ./src/server.ts",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "test": "npm run prettier && npm run tslint-test && nyc mocha",
     "test:local": "TS_NODE_CACHE=false npm run test",
     "build-ts": "tsc",
-    "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "tslint-test": "tslint -c tslint.test.json -p tsconfig.test.json",
-    "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/src/server.js",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\""
+    "tslint-test": "tslint -c tslint.test.json -p tsconfig.test.json"
   },
   "dependencies": {
     "config": "~3.2.2",
@@ -49,20 +43,16 @@
     "@types/sinon": "~7.0.13",
     "@types/sinon-chai": "~3.2.3",
     "@types/stream-json": "^1.7.1",
-    "@types/supertest": "~2.0.8",
     "@types/swagger-express-middleware": "~1.0.10",
     "@types/swagger-ui-express": "~3.0.1",
     "chai": "~4.2.0",
     "chai-as-promised": "~7.1.1",
-    "concurrently": "^6.2.1",
     "mocha": "~6.2.0",
-    "nodemon": "^2.0.12",
     "nyc": "~14.1.1",
     "prettier": "~1.18.2",
     "sinon": "~7.4.2",
     "sinon-chai": "~3.3.0",
     "source-map-support": "~0.5.13",
-    "supertest": "~4.0.2",
     "ts-node": "~8.3.0",
     "tslint": "~5.20.0",
     "typescript": "~3.6.2"
