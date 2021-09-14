@@ -14,7 +14,9 @@ export default class AccountRepositoryImpl implements AccountRepository {
         try {
             const rawData = new Array<LednAccount>();
             // getting the path of the json file (input) - change the value from infra.account.src -> infra.account.large-src to load the big json file.
-            const jsonPath = this.appConfig.get<string>('infra.account.src');
+            const jsonPath = this.appConfig.get<string>(
+                'infra.account.large-src'
+            );
             // reading the content of the file using StreamArray parser
             let accounts = await new Promise<LednAccount[]>(
                 (resolve, reject) => {
@@ -56,25 +58,22 @@ export default class AccountRepositoryImpl implements AccountRepository {
                 // filter by country (works upper or lower case)
                 if (accountSearchCriteria.country) {
                     accounts = _.filter(accounts, entry => {
-                        if (entry.country) {
-                            // ignore field with null value
-                            return (
-                                entry.country.toLowerCase() ===
+                        return (
+                            entry.country && // ignore field with null value
+                            entry.country.toLowerCase() ===
                                 accountSearchCriteria.country.toLowerCase()
-                            );
-                        }
+                        );
+                        // }
                     });
                 }
                 // filter by mfa field (works upper or lower case)
                 if (accountSearchCriteria.mfa) {
                     accounts = _.filter(accounts, entry => {
-                        if (entry.mfa) {
-                            // ignore field with null value
-                            return (
-                                entry.mfa ===
+                        return (
+                            entry.mfa && // ignore field with null value
+                            entry.mfa ===
                                 accountSearchCriteria.mfa.toUpperCase()
-                            );
-                        }
+                        );
                     });
                 }
                 // // sorting by a specified field

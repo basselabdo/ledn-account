@@ -58,6 +58,7 @@ With the solution I applied, processing the json [files](./input) took (includin
   Elapsed time to parse 100200 entries: 2.311 seconds
    ```
 # Improvements
+- Adding pagination to make it more efficient
 - I can think of adding more validators to validate the query `parameters` and their values deinfed in the swagger [file](swagger.json#L18), I already did define `enums` in ([mfa](swagger.json#L31) and [sortField](swagger.json#L47) query parameter) and tried to be strict a bit, but this also can be improved on the codebase level.
 - Adding more unit tests to handle more edge cases in the test. The current coverage is:
 ```ts
