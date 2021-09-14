@@ -49,11 +49,11 @@ I also added an interface in [domain](./src/domain) folder to easily parse the j
 
 # Benchmarking
 With the solution I applied, processing the json [files](./input) took (including the filter and sort):
-- [account.json](./input/account.json)
+- [accounts.json](./input/accounts.json)
    ```ts
    Elapsed time to parse 200 entries: 0.044 seconds
    ```
-- [account_large.json](./input/account_large.json)
+- [accounts_large.json](./input/accounts_large.json)
   ```ts
   Elapsed time to parse 100200 entries: 2.311 seconds
    ```
