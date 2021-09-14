@@ -62,27 +62,27 @@ With the solution I applied, processing the json [files](./input) took (includin
 - I can think of adding more validators to validate the query `parameters` and their values deinfed in the swagger [file](swagger.json#L18), I already did define `enums` in ([mfa](swagger.json#L31) and [sortField](swagger.json#L47) query parameter) and tried to be strict a bit, but this also can be improved on the codebase level.
 - Adding more unit tests to handle more edge cases in the test. The current coverage is:
 ```ts
-19 passing (50ms)
+  19 passing (58ms)
 
 -----------------------------|----------|----------|----------|----------|-------------------|
 File                         |  % Stmts | % Branch |  % Funcs |  % Lines | Uncovered Line #s |
 -----------------------------|----------|----------|----------|----------|-------------------|
-All files                    |      100 |    92.31 |      100 |      100 |                   |
+All files                    |      100 |    96.15 |      100 |      100 |                   |
  application/account         |      100 |      100 |      100 |      100 |                   |
   account-service-impl.ts    |      100 |      100 |      100 |      100 |                   |
  domain                      |      100 |      100 |      100 |      100 |                   |
   ledn-account.ts            |      100 |      100 |      100 |      100 |                   |
- infra/account               |      100 |    88.89 |      100 |      100 |                   |
-  account-repository-impl.ts |      100 |    88.89 |      100 |      100 |             71,85 |
+ infra/account               |      100 |    94.44 |      100 |      100 |                   |
+  account-repository-impl.ts |      100 |    94.44 |      100 |      100 |                84 |
  web                         |      100 |      100 |      100 |      100 |                   |
   account-handler.ts         |      100 |      100 |      100 |      100 |                   |
   json-formatter.ts          |      100 |      100 |      100 |      100 |                   |
 -----------------------------|----------|----------|----------|----------|-------------------|
 
 =============================== Coverage summary ===============================
-Statements   : 100% ( 60/60 )
-Branches     : 92.31% ( 24/26 )
+Statements   : 100% ( 58/58 )
+Branches     : 96.15% ( 25/26 )
 Functions    : 100% ( 18/18 )
-Lines        : 100% ( 59/59 )
+Lines        : 100% ( 57/57 )
 ================================================================================
 ```
